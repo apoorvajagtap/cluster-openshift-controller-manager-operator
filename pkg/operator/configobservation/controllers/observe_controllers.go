@@ -61,6 +61,9 @@ func ObserveControllers(genericListers configobserver.Listers, recorder events.R
 
 	// compile list of controllers to disable
 	var disabledControllers []openshiftcontrolplanev1.OpenShiftControllerName
+	// openshift.io/default-rolebindings controller shall be always disabled:
+	disabledControllers = append(disabledControllers, openshiftcontrolplanev1.OpenShiftDefaultRoleBindingsController)
+
 	for _, getDisabledControllers := range disabledControllerFuncs {
 		disabled, err := getDisabledControllers(listers)
 		if err != nil {
